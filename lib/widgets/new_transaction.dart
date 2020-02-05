@@ -17,15 +17,19 @@ class _NewTransactionState extends State<NewTransaction> {
   DateTime _selectedDate;
 
   void _submitData() {
+    if (_amountController.text.isEmpty){
+      return;
+    }
     final enteredTitle = _titleController.text;
     final enteredAmount = double.parse(_amountController.text);
 
-    if (enteredTitle.isEmpty || enteredAmount <= 0) {
+    if (enteredTitle.isEmpty || enteredAmount <= 0 || _selectedDate == null) {
       return; //This will stop the execution of function & hence new tx wont be added.
     }
     widget.addTx(
       enteredTitle,
       enteredAmount,
+      _selectedDate,
     );
     Navigator.of(context)
         .pop(); // Autocloses the sheet when transaction is added
@@ -42,7 +46,7 @@ class _NewTransactionState extends State<NewTransaction> {
         return;
       }
       setState(() {
-        _selectedDate == pickedDate;
+        _selectedDate = pickedDate;
       });
     });
     print('...');
